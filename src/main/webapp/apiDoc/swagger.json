@@ -8,7 +8,7 @@
   "schemes": [
     "http"
   ],
-  "host": "157.230.18.125",
+  "host": "ruffsacks.com",
   "basePath": "/CA2/api/person",
   "tags": [
     {
