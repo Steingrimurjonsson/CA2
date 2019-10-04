@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Lars-m/flow2week1.svg?branch=master)](https://travis-ci.org/Lars-m/flow2week1)
+[![Build Status](https://travis-ci.org/Steingrimurjonsson/CA2.svg?branch=master)](https://travis-ci.org/Steingrimurjonsson/CA2)
 
 To use "as is" create these two databases locally (you probably already have the latter)
 - person
