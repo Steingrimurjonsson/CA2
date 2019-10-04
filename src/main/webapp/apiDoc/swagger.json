@@ -8,8 +8,8 @@
   "schemes": [
     "http"
   ],
-  "host": "157.230.21.103",
-  "basePath": "/flow2week1/api/person",
+  "host": "157.230.18.125",
+  "basePath": "/CA2/api/person",
   "tags": [
     {
       "name": "person",
