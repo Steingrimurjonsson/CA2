@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Simple Person API",
-    "description": "A simple API given as an exercises at sem 3"
+    "title": "'FLY N SEE' API",
+    "description": "Group #3 'FLY N SEE' REST API"
   },
   "schemes": [
     "http"
