@@ -2,17 +2,15 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "'FLY N SEE' API",
-    "description": "Group #3 'FLY N SEE' REST API"
+    "title": "REST API",
+    "description": "Group #3 CA2 REST API"
   },
   "schemes": [
     "http"
   ],
-<<<<<<< HEAD
-  "host": "157.230.21.103",
-=======
+
   "host": "ruffsacks.com",
->>>>>>> 985e94b6e79b198dcf8015e90cb52ae2e4eb246a
+
   "basePath": "/CA2/api/person",
   "tags": [
     {
