@@ -122,9 +122,9 @@
           "type": "string",
           "example": "Wonnegut"
         },
-        "phone": {
+        "email": {
           "type": "string",
-          "example": "(45) 12234567"
+          "example": "Some@email.com"
         }
       }
     },
@@ -139,9 +139,9 @@
           "type": "string",
           "example": "Wonnegut"
         },
-        "phone": {
+        "email": {
           "type": "string",
-          "example": "(45) 12234567"
+          "example": "Some@email.com"
         }
       }
     }
