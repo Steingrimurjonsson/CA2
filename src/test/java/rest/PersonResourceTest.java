@@ -77,8 +77,8 @@ public class PersonResourceTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
-        p1 =new Person("Kim","Hansen","123456789");
-        p2 = new Person("pia","Hansen","111111111");
+        p1 =new Person("Kim","Hansen","some@email.com");
+        p2 = new Person("pia","Hansen","some2@email.com");
         try {
             em.getTransaction().begin();
             em.createNamedQuery("Person.deleteAllRows").executeUpdate();
@@ -159,18 +159,18 @@ public class PersonResourceTest {
        
     @Test
     public void editPerson() {
-        //change Kim's phone number and last name
-        p1.setPhone("1111");
+        //change Kim's email and last name
+        p1.setEmail("555@email.com");
         p1.setLastName("Petersen");
         given()    
         .contentType("application/json")
-        .body(new PersonDTO(p1.getFirstName(),p1.getLastName(),p1.getPhone()))
+        .body(new PersonDTO(p1.getFirstName(),p1.getLastName(),p1.getEmail()))
         .when()
         .put("/person/{id}",p1.getId())
         .then()
         //.log().body()
         .body("lName",equalTo("Petersen"))
-        .body("phone",equalTo("1111"));
+        .body("email",equalTo("555@email.com"));
     }
     @Test
     public void deletePerson() {

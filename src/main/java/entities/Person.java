@@ -1,12 +1,18 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 
@@ -22,16 +28,8 @@ public class Person implements Serializable {
     
     private String firstName;
     private String lastName;
-    private String phone;
-    
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date created;
-    
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date lastEdited;
-    
-    public Person() {
-    }
+    private String email;
+ 
         
     public Long getId() {
         return id;
@@ -41,19 +39,14 @@ public class Person implements Serializable {
         this.id = id;
     }
 
-    public Person(String firstName, String lastName, String phone) {
+    public Person(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phone = phone;
-        this.created = new Date();
-        this.lastEdited = new Date();
+           this.email = email;
+    
     }
 
-    public Date getCreated() {
-        return created;
-    }
-   
-
+  
     public String getFirstName() {
         return firstName;
     }
@@ -70,21 +63,14 @@ public class Person implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setEmail(String email) {
+        this.email = email;
     }
-
-    public Date getLastEdited() {
-        return lastEdited;
-    }
-
-    public void setLastEdited(Date lastEdited) {
-        this.lastEdited = lastEdited;
-    }
+    
 
     @Override
     public int hashCode() {

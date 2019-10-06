@@ -49,8 +49,8 @@ public class PersonFacadeTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
-        p1 = new Person("Kim", "Hansen", "123456789");
-        p2 = new Person("Pia", "Hansen", "111111111");
+        p1 = new Person("Kim", "Hansen", "some@email.com");
+        p2 = new Person("Pia", "Hansen", "some2@email.com");
         try {
             em.getTransaction().begin();
             em.createNamedQuery("Person.deleteAllRows").executeUpdate();
@@ -129,11 +129,9 @@ public class PersonFacadeTest {
     
     @Test
     public void editExistingPerson() throws PersonNotFoundException{
-        p1.setPhone("555");
-        long lastEditedBefore = p1.getLastEdited().getTime();
+        p1.setEmail("555@email.com");
         Person pEdited = facade.editPerson(p1);
-        assertEquals(p1.getPhone(), pEdited.getPhone());
-        assertThat(pEdited.getLastEdited().getTime(),greaterThan(lastEditedBefore));
+        assertEquals(p1.getEmail(), pEdited.getEmail());
     }
     
 }

@@ -9,7 +9,7 @@
     "http"
   ],
   "host": "157.230.21.103",
-  "basePath": "/flow2week1/api/person",
+  "basePath": "/CA2/api/person",
   "tags": [
     {
       "name": "person",

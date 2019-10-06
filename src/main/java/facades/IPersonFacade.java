@@ -5,7 +5,7 @@ import exceptions.PersonNotFoundException;
 import java.util.List;
 
 public interface IPersonFacade {
-  public Person addPerson(String fName, String lName, String phone);  
+  public Person addPerson(String fName, String lName, String email);  
   public Person deletePerson(long id) throws PersonNotFoundException;  
   public Person getPerson(long id) throws PersonNotFoundException;  
   public List<Person> getAllPersons();  

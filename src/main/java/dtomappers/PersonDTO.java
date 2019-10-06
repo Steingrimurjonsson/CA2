@@ -8,18 +8,18 @@ public class PersonDTO {
     private long id;
     private String fName;
     private String lName;
-    private String phone;
+    private String email;
 
     public PersonDTO(Person p) {
         this.fName = p.getFirstName();
         this.lName = p.getLastName();
-        this.phone = p.getPhone();
+        this.email = p.getEmail();
         this.id = p.getId();
     }
-    public PersonDTO(String fn,String ln, String phone) {
+    public PersonDTO(String fn,String ln, String email) {
         this.fName = fn;
         this.lName = ln;
-        this.phone = phone;        
+        this.email = email;        
     }
     
     public PersonDTO() {}
@@ -48,12 +48,12 @@ public class PersonDTO {
         this.lName = lName;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhone(String email) {
+        this.email = email;
     }
 
     @Override
