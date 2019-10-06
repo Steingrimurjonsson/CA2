@@ -20,10 +20,11 @@ import utils.EMF_Creator.DbSelector;
 import utils.EMF_Creator.Strategy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import org.junit.jupiter.api.Disabled;
 
 
 //Uncomment the line below, to temporarily disable this test
-//@Disabled
+@Disabled
 public class PersonFacadeTest {
 
     private static EntityManagerFactory emf;
