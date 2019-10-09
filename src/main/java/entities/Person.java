@@ -17,7 +17,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+<<<<<<< HEAD
 import javax.persistence.NamedQueries;
+=======
+>>>>>>> 434c7a336e938e932dc1e50b8687ba334df2f4f3
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -37,6 +40,7 @@ public class Person implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
+<<<<<<< HEAD
    
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "hobbyID")
@@ -51,6 +55,22 @@ public class Person implements Serializable {
     @ManyToOne
     private Address address;
 
+=======
+    private String phone;
+    
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "address_id")
+    private Address address;
+    
+    public Person(String firstName, String lastName, String phone, Address a) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.address = a;
+        if(!a.getPersons().contains(this))
+            a.addPerson(this);
+    }    
+>>>>>>> 434c7a336e938e932dc1e50b8687ba334df2f4f3
     public Long getId() {
         return id;
     }
