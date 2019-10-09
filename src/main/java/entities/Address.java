@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package entities;
 
 import dtomappers.AddressDTO;
@@ -67,60 +67,8 @@ public class Address implements Serializable {
     }
 
     public void setId(Long id) {
-        this.id = id;
-=======
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package entities;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-
-/**
- *
- * @author jojus1101
- */
-@Entity
-@NamedQueries({
-@NamedQuery(name = "Address.deleteAllRows", query = "DELETE from Address"),
-@NamedQuery(name = "Address.getAll", query = "SELECT a FROM Address a")
-})
-public class Address implements Serializable {
-
-     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String street;
-    private String zip;
-    private String city;
-    @OneToMany( mappedBy = "address",cascade = CascadeType.PERSIST)
-    private List<Person> persons = new ArrayList();
-
-    public Address(String street, String zip, String city) {
-        this.street = street;
-        this.zip = zip;
-        this.city = city;
-    }
-
-    public Address() {
->>>>>>> 434c7a336e938e932dc1e50b8687ba334df2f4f3
-    }
-
-    public String getStreet() {
+ }
+   public String getStreet() {
         return street;
     }
 
@@ -128,7 +76,6 @@ public class Address implements Serializable {
         this.street = street;
     }
 
-<<<<<<< HEAD
     public String getAdditionalInfo() {
         return additionalInfo;
     }
@@ -151,46 +98,6 @@ public class Address implements Serializable {
 
     public void setCityInfo(List<CityInfo> cityInfo) {
         this.cityInfo = cityInfo;
-    }
-
-
-  @Override
-    public String toString() {
-        return "Address{" + "id=" + id + ", street=" + street + ", additionalInfo=" + additionalInfo + ", cityInfo=" + cityInfo + ", person=" + persons + '}';
-    }
-    
-}
-=======
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public List<Person> getPersons() {
-        return this.persons;
-    }
-
-    public void addPerson(Person person) {
-        this.persons.add(person);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override
@@ -216,9 +123,13 @@ public class Address implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Address[ id=" + id + " ]";
+        return "Address{" + "id=" + id + ", street=" + street + ", additionalInfo=" + additionalInfo + ", persons=" + persons + ", cityInfo=" + cityInfo + '}';
     }
+
+   
    
 
 }
->>>>>>> 434c7a336e938e932dc1e50b8687ba334df2f4f3
+
+ 
+

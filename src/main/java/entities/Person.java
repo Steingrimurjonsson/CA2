@@ -17,10 +17,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-<<<<<<< HEAD
+
 import javax.persistence.NamedQueries;
-=======
->>>>>>> 434c7a336e938e932dc1e50b8687ba334df2f4f3
+
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -40,44 +39,19 @@ public class Person implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
-<<<<<<< HEAD
-   
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "hobbyID")
-    
+
     private List<Hobby> hobbies = new ArrayList();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade = CascadeType.PERSIST)
     @JoinColumn(name = "phoneID")
-    
+
     private List<Phone> phone = new ArrayList();
 
     @ManyToOne
     private Address address;
-
-=======
-    private String phone;
-    
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "address_id")
-    private Address address;
-    
-    public Person(String firstName, String lastName, String phone, Address a) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.address = a;
-        if(!a.getPersons().contains(this))
-            a.addPerson(this);
-    }    
->>>>>>> 434c7a336e938e932dc1e50b8687ba334df2f4f3
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Person(String firstName, String lastName, String email) {
         this.firstName = firstName;
@@ -139,8 +113,6 @@ public class Person implements Serializable {
         this.address = address;
     }
 
-
-
     public List<Phone> getPhone() {
         return phone;
     }
@@ -174,6 +146,7 @@ public class Person implements Serializable {
         }
         return true;
     }
+
     /*@ElementCollection
     @CollectionTable(
             name = "hobbies"
@@ -193,7 +166,5 @@ public class Person implements Serializable {
     public String toString() {
         return "Person{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", hobbies=" + hobbies + ", phone=" + phone + ", address=" + address + '}';
     }
-    
 
-    
 }
