@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 
@@ -32,8 +33,20 @@ public class Person implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
- 
-        
+    private String phone;
+    
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "address_id")
+    private Address address;
+    
+    public Person(String firstName, String lastName, String phone, Address a) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.address = a;
+        if(!a.getPersons().contains(this))
+            a.addPerson(this);
+    }    
     public Long getId() {
         return id;
     }
