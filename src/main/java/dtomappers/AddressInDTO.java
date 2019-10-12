@@ -1,42 +1,31 @@
 package dtomappers;
 
 import entities.Address;
-import entities.CityInfo;
-import entities.Hobby;
-import entities.Person;
-import entities.Phone;
 import java.util.List;
 
-public class AddressDTO {
+public class AddressInDTO {
 
     private long id;
     private String street;
     private String additionalInfo;
-  private List<CityInfo> cityInfo;
-    private List<Person> person;
-    
-    
-    
+    private CityInfoInDTO cityInfo;
 
-
-
-  public AddressDTO(Address a) {
+    public AddressInDTO(Address a) {
         this.street = a.getStreet();
         this.additionalInfo = a.getAdditionalInfo();
-         this.cityInfo = a.getCityInfo();
-  
+        this.cityInfo = new CityInfoInDTO(a.getCityInfo());
+
         this.id = a.getId();
     }
-         
-    public AddressDTO(String street, String addInfo, List<CityInfo> cityInfo, List<Person> person) {
+
+    public AddressInDTO(Long id, String street, String addInfo) {
+        this.id = id;
         this.street = street;
         this.additionalInfo = addInfo;
-        this.cityInfo = cityInfo;
-        this.person = person;
 
     }
 
-    public AddressDTO() {
+    public AddressInDTO() {
     }
 
     public long getId() {
@@ -63,20 +52,12 @@ public class AddressDTO {
         this.additionalInfo = additionalInfo;
     }
 
-    public List<CityInfo> getCityInfo() {
+    public CityInfoInDTO getCityInfo() {
         return cityInfo;
     }
 
-    public void setCityInfo(List<CityInfo> cityInfo) {
+    public void setCityInfo(CityInfoInDTO cityInfo) {
         this.cityInfo = cityInfo;
-    }
-
-    public List<Person> getPerson() {
-        return person;
-    }
-
-    public void setPerson(List<Person> person) {
-        this.person = person;
     }
 
 
@@ -98,7 +79,7 @@ public class AddressDTO {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AddressDTO other = (AddressDTO) obj;
+        final AddressInDTO other = (AddressInDTO) obj;
         if (this.id != other.id) {
             return false;
         }
@@ -107,8 +88,9 @@ public class AddressDTO {
 
     @Override
     public String toString() {
-        return "AddressDTO{" + "id=" + id + ", street=" + street + ", additionalInfo=" + additionalInfo + ", cityInfo=" + cityInfo + ", person=" + person + '}';
+        return "AddressInDTO{" + "id=" + id + ", street=" + street + ", additionalInfo=" + additionalInfo + ", cityInfo=" + cityInfo + '}';
     }
+
 
 
 }

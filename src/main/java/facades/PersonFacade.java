@@ -1,7 +1,16 @@
 package facades;
 
+import dtomappers.HobbyInDTO;
+import dtomappers.PersonInDTO;
+import dtomappers.PersonOutDTO;
+import dtomappers.PhoneInDTO;
+import entities.Address;
+import entities.CityInfo;
+import entities.Hobby;
 import entities.Person;
+import entities.Phone;
 import exceptions.PersonNotFoundException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -39,33 +48,48 @@ public class PersonFacade implements IPersonFacade {
     }
 
     //TODO Remove/Change this before use
-    public long getPersonCount() {
-        EntityManager em = emf.createEntityManager();
+    // public long getPersonCount() {
+    //    EntityManager em = emf.createEntityManager();
+    //    try {
+    //         long renameMeCount = (long) em.createQuery("SELECT COUNT(r) FROM Person r").getSingleResult();
+    //        return renameMeCount;
+    //     } finally {
+    //         em.close();
+    //     }
+//
+    // }
+    @Override
+    public List<PersonOutDTO> getAllPersons() {
+        EntityManager em = getEntityManager();
         try {
-            long renameMeCount = (long) em.createQuery("SELECT COUNT(r) FROM Person r").getSingleResult();
-            return renameMeCount;
+            List<Person> ps =em.createNamedQuery("Person.All").getResultList();
+            List<PersonOutDTO> allPersons = new ArrayList();
+            ps.forEach((p) -> {
+                allPersons.add(new PersonOutDTO(p));
+            });
+            return allPersons;
         } finally {
             em.close();
         }
-
     }
 
     @Override
-    public Person addPerson(String fName, String lName, String email) {
+    public PersonOutDTO addPerson(PersonInDTO DTO) {
         EntityManager em = getEntityManager();
-        Person person = new Person(fName, lName, email);
+        Person person = new Person(DTO.getfName(), DTO.getlName(), DTO.getEmail(), null);
         try {
             em.getTransaction().begin();
             em.persist(person);
             em.getTransaction().commit();
+            PersonOutDTO ADDED = new PersonOutDTO(person);
+            return ADDED;
         } finally {
             em.close();
         }
-        return person;
     }
 
     @Override
-    public Person deletePerson(long id) throws PersonNotFoundException {
+    public PersonOutDTO deletePerson(long id) throws PersonNotFoundException {
         EntityManager em = getEntityManager();
         Person person = em.find(Person.class, id);
         if (person == null) {
@@ -75,51 +99,114 @@ public class PersonFacade implements IPersonFacade {
             em.getTransaction().begin();
             em.remove(person);
             em.getTransaction().commit();
+            return new PersonOutDTO(person);
         } finally {
             em.close();
         }
-        return person;
+
     }
 
     @Override
-    public Person getPerson(long id) throws PersonNotFoundException {
+    public PersonOutDTO getPerson(long id) throws PersonNotFoundException {
         EntityManager em = getEntityManager();
-        try {
-            Person person = em.find(Person.class, id);
-            if (person == null) {
-                throw new PersonNotFoundException(String.format("Person with id: (%d) not found", id));
-            }
-            return person;
-        } finally {
-            em.close();
-        }
-    }
-
-    @Override
-    public List<Person> getAllPersons() {
-        EntityManager em = getEntityManager();
-        try {
-            return em.createQuery("SELECT p from Person p").getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    @Override
-    public Person editPerson(Person p) throws PersonNotFoundException {
-        EntityManager em = getEntityManager();
-        Person person = em.find(Person.class, p.getId());
+        Person person = em.find(Person.class, id);
         if (person == null) {
-            throw new PersonNotFoundException(String.format("Person with id: (%d) not found", p.getId()));
+            throw new PersonNotFoundException(String.format("Person with id: (%d) not found", id));
         }
-        person.setFirstName(p.getFirstName());
-        person.setLastName(p.getLastName());
-        person.setEmail(p.getEmail());
+        try {
+            person = em.find(Person.class, id);
+            return new PersonOutDTO(person);
+        } finally {
+            em.close();
+        }
+
+    }
+
+    @Override
+    public PersonOutDTO editPerson(PersonInDTO DTO) throws PersonNotFoundException {
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.merge(person);
+            Person pID = em.find(Person.class, DTO.getId());
+            if (pID == null) {
+                throw new PersonNotFoundException(String.format("Person with id: (%d) not found", pID.getId()));
+            }
+            if (DTO.getfName() != null) {
+                pID.setfName(DTO.getfName());
+            }
+            if (DTO.getlName() != null) {
+                pID.setlName(DTO.getlName());
+            }
+            if (DTO.getEmail() != null) {
+                pID.setEmail(DTO.getEmail());
+            }
+
+            Address a;
+            CityInfo c;
+            List<HobbyInDTO> hobbies = DTO.getHobbies();
+            List<PhoneInDTO> phones = DTO.getPhones();
+
+            if (DTO.getAddress() != null) {
+                a = em.find(Address.class, DTO.getAddress().getId());
+                if (a == null) {
+                    a = new Address(DTO.getAddress());
+                    em.persist(a);
+                } else {
+                    a.setAdditionalInfo(DTO.getAddress().getAdditionalInfo());
+                    a.setStreet(DTO.getAddress().getStreet());
+                    a = em.merge(a);
+                }
+                if (DTO.getAddress().getCityInfo() != null) {
+                    c = em.find(CityInfo.class, DTO.getAddress().getCityInfo().getId());
+                    if (c == null) {
+                        c = new CityInfo(DTO.getAddress().getCityInfo());
+                        em.persist(c);
+                    } else {
+                        c.setCity(DTO.getAddress().getCityInfo().getCity());
+                        c.setZipCode(DTO.getAddress().getCityInfo().getZipCode());
+                        c = em.merge(c);
+                    }
+                    a.setCityInfo(c);
+                }
+                pID.setAddress(a);
+            }
+            if (hobbies != null) {
+                hobbies.forEach((hobbyDTO) -> {
+                    Hobby h;
+                    h = em.find(Hobby.class, hobbyDTO.getId());
+                    if (h != null) {
+                        h.setDescription(hobbyDTO.getDescription());
+                        h.setName(hobbyDTO.getName());
+                        em.merge(h);
+                    } else {
+                        h = new Hobby(hobbyDTO);
+                        em.persist(h);
+                    }
+                    if (!pID.getHobbies().contains(h)) {
+                        pID.addHobby(h);
+                    }
+                });
+            }
+            if (phones != null) {
+                phones.forEach((pDTO) -> {
+                    Phone ph;
+                    ph = em.find(Phone.class, pDTO.getId());
+                    if (ph != null) {
+                        ph.setDescription(pDTO.getDescription());
+                        ph.setNumber(pDTO.getNumber());
+                        em.merge(ph);
+                    } else {
+                        ph = new Phone(pDTO);
+                        em.persist(ph);
+                    }
+                    if (!pID.getPhone().contains(ph)) {
+                        pID.addPhone(ph);
+                    }
+                });
+            }
+            Person ePerson = em.merge(pID);
             em.getTransaction().commit();
-            return person;
+            return new PersonOutDTO(ePerson);
         } finally {
             em.close();
         }

@@ -2,8 +2,8 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dtomappers.PersonDTO;
-import dtomappers.PersonsDTO;
+import dtomappers.PersonInDTO;
+import dtomappers.PersonOutDTO;
 import entities.Person;
 import exceptions.PersonNotFoundException;
 import utils.EMF_Creator;
@@ -25,8 +25,8 @@ import utils.EMF_Creator.Strategy;
 @Path("person")
 public class PersonResource {
 
-    private static EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(DbSelector.DEV, Strategy.CREATE);
-    private static final PersonFacade FACADE =  PersonFacade.getFacadeExample(EMF);
+  private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.TEST, EMF_Creator.Strategy.DROP_AND_CREATE);
+    private static final PersonFacade FACADE = PersonFacade.getFacadeExample(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
             
     @GET
@@ -36,59 +36,22 @@ public class PersonResource {
     }
     
     @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    @Path("{id}")
-    public String getPerson(@PathParam("id") long id) throws PersonNotFoundException {
-        Person found = FACADE.getPerson(id);
-        return GSON.toJson(new PersonDTO(found));
-    }
-    
-    @POST
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-    public String add(String person) {
-        PersonDTO p = GSON.fromJson(person,PersonDTO.class);
-        Person pAdded = FACADE.addPerson(p.getfName(), p.getlName(), p.getEmail());
-        return GSON.toJson(new PersonDTO(pAdded));
-    }
-    
-    @PUT
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path("{id}")
-    public String edit(@PathParam("id") long id,String person) throws PersonNotFoundException {
-        PersonDTO p = GSON.fromJson(person,PersonDTO.class);
-        Person pToEdit = new Person(p.getfName(),p.getlName(),p.getEmail());
-        pToEdit.setId(id);
-        Person editedPerson = FACADE.editPerson(pToEdit);
-        return GSON.toJson(new PersonDTO(editedPerson));
-    }
-    
-    @DELETE
-    @Produces({MediaType.APPLICATION_JSON})
-    @Path("{id}")
-    public String delete(@PathParam("id") long id) throws PersonNotFoundException {
-        FACADE.deletePerson(id);
-        return "{\"status\":\"deleted\"}";
-    }
-    
-    @GET
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
-    public String allPersons() {
-        PersonsDTO persons = new PersonsDTO(FACADE.getAllPersons());
-        //return GSON.toJson(persons.getPersonDTOs());
-        return GSON.toJson(persons);
+    public String getAllPersons() {
+        return GSON.toJson(FACADE.getAllPersons());
     }
     
-    @GET
-    @Path("count")
-    @Produces({MediaType.APPLICATION_JSON})
-    public String getRenameMeCount() {
-        long count = FACADE.getPersonCount();
-        System.out.println("--------------->"+count);
-        return "{\"count\":"+count+"}";  //Done manually so no need for a DTO
+  @POST
+    @Path("/add")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public PersonOutDTO addPerson(PersonInDTO p) {
+    PersonInDTO newP = new PersonInDTO("FTEST", "LTEST", "EMAILTEST");
+        return FACADE.addPerson(newP);
+
     }
+   
 
  
 }

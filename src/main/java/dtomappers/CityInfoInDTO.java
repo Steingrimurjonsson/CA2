@@ -1,37 +1,37 @@
 package dtomappers;
 
-import entities.Address;
 import entities.CityInfo;
-import entities.Hobby;
-import entities.Person;
-import entities.Phone;
+
 import java.util.List;
 
-public class CityInfoDTO {
+public class CityInfoInDTO {
 
     private long id;
     private String zipCode;
     private String city;
 
-    private List<Address> address;
-
-    
-    public CityInfoDTO(CityInfo cI) {
+    public CityInfoInDTO(CityInfoOutDTO cI) {
         this.zipCode = cI.getZipCode();
         this.city = cI.getCity();
- 
+
         this.id = cI.getId();
     }
 
-         
-    public CityInfoDTO(String zC, String C, List<Address> address) {
+    public CityInfoInDTO(CityInfo cI) {
+        this.zipCode = cI.getZipCode();
+        this.city = cI.getCity();
+
+        this.id = cI.getId();
+    }
+
+    public CityInfoInDTO(Long id, String zC, String C) {
+        this.id = id;
         this.zipCode = zC;
         this.city = C;
-        this.address = address;
 
     }
 
-    public CityInfoDTO() {
+    public CityInfoInDTO() {
     }
 
     public long getId() {
@@ -58,15 +58,6 @@ public class CityInfoDTO {
         this.city = city;
     }
 
-    public List<Address> getAddress() {
-        return address;
-    }
-
-    public void setAddress(List<Address> address) {
-        this.address = address;
-    }
-
-   
     @Override
     public int hashCode() {
         int hash = 3;
@@ -85,17 +76,11 @@ public class CityInfoDTO {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CityInfoDTO other = (CityInfoDTO) obj;
+        final CityInfoInDTO other = (CityInfoInDTO) obj;
         if (this.id != other.id) {
             return false;
         }
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "CityInfoDTO{" + "id=" + id + ", zipCode=" + zipCode + ", city=" + city + ", address=" + address + '}';
-    }
-
 
 }

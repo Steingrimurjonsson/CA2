@@ -1,33 +1,22 @@
 package entities;
 
-import dtomappers.PersonDTO;
-import dtomappers.PhoneDTO;
+
+import dtomappers.PhoneInDTO;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
 
 @Entity
-@NamedQueries({
-    @NamedQuery(name = "Phone.deleteAllRows", query = "DELETE from Phone"),
-    @NamedQuery(name = "Phone.getAll", query = "SELECT h FROM Phone h"),
-    @NamedQuery(name = "Phone.getPhoneByID", query = "SELECT h FROM Phone h WHERE h.id = id")})
+
 
 public class Phone implements Serializable {
 
@@ -53,7 +42,7 @@ public class Phone implements Serializable {
         this.person = person;
     }
     
-    public Phone(PhoneDTO ph) {
+    public Phone(PhoneInDTO ph) {
         this.id = ph.getId();
         this.number = ph.getNumber();
         this.description = ph.getDescription();

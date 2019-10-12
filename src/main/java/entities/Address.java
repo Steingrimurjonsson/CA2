@@ -1,8 +1,8 @@
-
 package entities;
 
-import dtomappers.AddressDTO;
-import dtomappers.PersonDTO;
+import dtomappers.AddressInDTO;
+import dtomappers.CityInfoInDTO;
+import dtomappers.PersonInDTO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,16 +19,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 @Entity
-@NamedQueries({
-    @NamedQuery(name = "Address.deleteAllRows", query = "DELETE from Address"),
-    @NamedQuery(name = "Address.getAll", query = "SELECT h FROM Address h"),
-    @NamedQuery(name = "Address.getAddressByID", query = "SELECT h FROM Address h WHERE h.id = id")})
 
 public class Address implements Serializable {
 
@@ -36,30 +33,47 @@ public class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String street;
     private String additionalInfo;
-    
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "cityinfoID")
+    private CityInfo cityInfo;
+
     @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "personID")
     private List<Person> persons = new ArrayList();
-    private List<CityInfo> cityInfo = new ArrayList();
+
     public Address() {
     }
 
-    public Address(String street, String additionalInfo, List<CityInfo> cityInfo) {
-     
+    public Address(String street, String additionalInfo, CityInfo cityInfo) {
+
         this.street = street;
         this.additionalInfo = additionalInfo;
         this.cityInfo = cityInfo;
-        
+
     }
-    
-    public Address(AddressDTO address) {
-        this.id = address.getId();
-        this.street = address.getStreet();
-        this.additionalInfo = address.getAdditionalInfo();
-          this.cityInfo = address.getCityInfo();
+
+    public Address(String street, String additionalInfo) {
+        this.street = street;
+        this.additionalInfo = additionalInfo;
+        this.cityInfo = new CityInfo();
+        this.persons = new ArrayList();
+    }
+
+    public Address(String street, String additionalInfo, CityInfo cityInfo, List<Person> persons) {
+
+        this.street = street;
+        this.additionalInfo = additionalInfo;
+        this.cityInfo = cityInfo;
+        this.persons = persons;
+    }
+
+    public Address(AddressInDTO a) {
+        this.id = a.getId();
+        this.street = a.getStreet();
+        this.additionalInfo = a.getAdditionalInfo();
     }
 
     public Long getId() {
@@ -67,8 +81,9 @@ public class Address implements Serializable {
     }
 
     public void setId(Long id) {
- }
-   public String getStreet() {
+    }
+
+    public String getStreet() {
         return street;
     }
 
@@ -92,11 +107,11 @@ public class Address implements Serializable {
         this.persons = persons;
     }
 
-    public List<CityInfo> getCityInfo() {
+    public CityInfo getCityInfo() {
         return cityInfo;
     }
 
-    public void setCityInfo(List<CityInfo> cityInfo) {
+    public void setCityInfo(CityInfo cityInfo) {
         this.cityInfo = cityInfo;
     }
 
@@ -106,7 +121,6 @@ public class Address implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-    
 
     @Override
     public boolean equals(Object object) {
@@ -123,13 +137,9 @@ public class Address implements Serializable {
 
     @Override
     public String toString() {
-        return "Address{" + "id=" + id + ", street=" + street + ", additionalInfo=" + additionalInfo + ", persons=" + persons + ", cityInfo=" + cityInfo + '}';
+        return "Address{" + "id=" + id + ", street=" + street + ", additionalInfo=" + additionalInfo + ", cityInfo=" + cityInfo + ", persons=" + persons + '}';
     }
 
-   
-   
+
 
 }
-
- 
-

@@ -1,7 +1,7 @@
 package entities;
 
-import dtomappers.HobbyDTO;
-import dtomappers.PersonDTO;
+import dtomappers.HobbyInDTO;
+import dtomappers.PersonInDTO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,10 +23,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 
 @Entity
-@NamedQueries({
-    @NamedQuery(name = "Hobby.deleteAllRows", query = "DELETE from Hobby"),
-    @NamedQuery(name = "Hobby.getAll", query = "SELECT h FROM Hobby h"),
-    @NamedQuery(name = "Hobby.getHobbyByID", query = "SELECT h FROM Hobby h WHERE h.id = id")})
+
 
 public class Hobby implements Serializable {
 
@@ -45,7 +42,7 @@ public class Hobby implements Serializable {
     public Hobby() {
     }
     
-    public Hobby(HobbyDTO h) {
+    public Hobby(HobbyInDTO h) {
         this.id = h.getId();
         this.name = h.getName();
         this.description = h.getDescription();

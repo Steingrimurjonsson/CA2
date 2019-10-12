@@ -1,7 +1,7 @@
 package entities;
 
-import dtomappers.CityInfoDTO;
-import dtomappers.PersonDTO;
+import dtomappers.CityInfoInDTO;
+import dtomappers.PersonInDTO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,10 +25,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 @Entity
-@NamedQueries({
-    @NamedQuery(name = "CityInfo.deleteAllRows", query = "DELETE from CityInfo"),
-    @NamedQuery(name = "CityInfo.getAll", query = "SELECT h FROM CityInfo h"),
-    @NamedQuery(name = "CityInfo.getCityInfoByID", query = "SELECT h FROM CityInfo h WHERE h.id = id")})
+
 
 public class CityInfo implements Serializable {
 
@@ -40,10 +37,10 @@ public class CityInfo implements Serializable {
     private String zipCode;
     private String city;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cityinfo", cascade = CascadeType.PERSIST)
-    
-    
-    private List<Address> address;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cityInfo", cascade = CascadeType.PERSIST)
+
+    @JoinColumn(name = "addressID")
+    private List<Address> address = new ArrayList();
 
     public CityInfo() {
     }
@@ -54,7 +51,7 @@ public class CityInfo implements Serializable {
         this.address = address;
     }
 
-    public CityInfo(CityInfoDTO cI) {
+    public CityInfo(CityInfoInDTO cI) {
 
         this.id = cI.getId();
         this.zipCode = cI.getZipCode();
@@ -96,6 +93,6 @@ public class CityInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "CityInfo{" + "id=" + id + ", zipCode=" + zipCode + ", city=" + city + ", addresses=" + address + '}';
+        return "CityInfo{" + "id=" + id + ", zipCode=" + zipCode + ", city=" + city + ", address=" + address + '}';
     }
 }

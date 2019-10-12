@@ -1,36 +1,36 @@
 package dtomappers;
 
-import entities.Address;
-import entities.CityInfo;
-import entities.Hobby;
-import entities.Person;
+
 import entities.Phone;
 import java.util.List;
 
-public class HobbyDTO {
+public class PhoneOutDTO {
 
     private long id;
-    private String name;
+    private String number;
     private String description;
-    private List<Person> person;
 
-    
-    
-    public HobbyDTO(Hobby h) {
-        this.name = h.getName();
-        this.description = h.getDescription();
-   
-        this.id = h.getId();
+    public PhoneOutDTO(Phone ph) {
+        this.number = ph.getNumber();
+        this.description = ph.getDescription();
+        this.id = ph.getId();
     }
-         
-    public HobbyDTO(String name, String description, List<Person> person) {
-        this.name = name;
+
+    public PhoneOutDTO(PhoneInDTO ph) {
+        this.number = ph.getNumber();
+        this.description = ph.getDescription();
+        this.id = ph.getId();
+    }
+
+    public PhoneOutDTO(Long id, String number, String description) {
+        this.number = number;
         this.description = description;
-   this.person = person;
+
+        this.id = id;
 
     }
 
-    public HobbyDTO() {
+    public PhoneOutDTO() {
     }
 
     public long getId() {
@@ -41,12 +41,12 @@ public class HobbyDTO {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNumber() {
+        return number;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public String getDescription() {
@@ -56,7 +56,6 @@ public class HobbyDTO {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     @Override
     public int hashCode() {
@@ -76,17 +75,11 @@ public class HobbyDTO {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final HobbyDTO other = (HobbyDTO) obj;
+        final PhoneOutDTO other = (PhoneOutDTO) obj;
         if (this.id != other.id) {
             return false;
         }
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "HobbyDTO{" + "id=" + id + ", name=" + name + ", description=" + description + ", person=" + person + '}';
-    }
-
 
 }

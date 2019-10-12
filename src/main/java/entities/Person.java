@@ -1,5 +1,6 @@
 package entities;
 
+import dtomappers.PersonInDTO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,8 +28,8 @@ import javax.persistence.Temporal;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person"),
-    @NamedQuery(name = "Person.getAll", query = "SELECT h FROM Person h"),
-    @NamedQuery(name = "Person.getPersonByID", query = "SELECT h FROM Person h WHERE h.id = id")})
+    @NamedQuery(name = "Person.All", query = "SELECT p FROM Person p"),
+ })
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,8 +37,8 @@ public class Person implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName;
-    private String lastName;
+    private String fName;
+    private String lName;
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -50,19 +51,38 @@ public class Person implements Serializable {
 
     private List<Phone> phone = new ArrayList();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "addressID")
     private Address address;
 
-    public Person(String firstName, String lastName, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-
+    public Person() {
     }
 
-    public Person(String firstName, String lastName, String email, List<Hobby> hobbies, List<Phone> phone, Address address) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Person(String fName, String lName, String email) {
+        this.fName = fName;
+        this.lName = lName;
+        this.email = email;
+        this.phone = new ArrayList();
+    }
+
+    public Person(String fName, String lName, String email, List<Hobby> hobbies) {
+        this.fName = fName;
+        this.lName = lName;
+        this.email = email;
+        this.phone = new ArrayList();
+        this.hobbies = hobbies;
+    }
+
+    public Person(PersonInDTO p) {
+        this.email = p.getEmail();
+        this.fName = p.getfName();
+        this.lName = p.getlName();
+        this.phone = new ArrayList();
+    }
+
+    public Person(String fName, String lName, String email, List<Hobby> hobbies, List<Phone> phone, Address address) {
+        this.fName = fName;
+        this.lName = lName;
         this.email = email;
         this.hobbies = hobbies;
         this.phone = phone;
@@ -77,22 +97,20 @@ public class Person implements Serializable {
         this.id = id;
     }
 
-    
-    
-    public String getFirstName() {
-        return firstName;
+    public String getfName() {
+        return fName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setfName(String fName) {
+        this.fName = fName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getlName() {
+        return lName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setlName(String lName) {
+        this.lName = lName;
     }
 
     public String getEmail() {
@@ -129,6 +147,10 @@ public class Person implements Serializable {
 
     public void setPhone(List<Phone> phone) {
         this.phone = phone;
+    }
+
+    public void addPhone(Phone phone) {
+        this.phone.add(phone);
     }
 
     @Override
@@ -171,10 +193,9 @@ public class Person implements Serializable {
     public String getHobbies() {
         return String.join(",", hobbies);
     }*/
-
     @Override
     public String toString() {
-        return "Person{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", hobbies=" + hobbies + ", phone=" + phone + ", address=" + address + '}';
+        return "Person{" + "id=" + id + ", fName=" + fName + ", lName=" + lName + ", email=" + email + ", hobbies=" + hobbies + ", phone=" + phone + ", address=" + address + '}';
     }
 
 }
