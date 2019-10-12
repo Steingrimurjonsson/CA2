@@ -8,7 +8,7 @@ public class SettingsTest {
     
     @Test
     public void testGetSingleProperty(){
-        assertEquals("3306", Settings.getPropertyValue("db.port"));
+        assertEquals("3307", Settings.getPropertyValue("db.port"));
     }
     
     @Test

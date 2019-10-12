@@ -51,9 +51,9 @@ public class PersonFacade implements IPersonFacade {
     }
 
     @Override
-    public Person addPerson(String fName, String lName, String phone) {
+    public Person addPerson(String fName, String lName, String email) {
         EntityManager em = getEntityManager();
-        Person person = new Person(fName, lName, phone);
+        Person person = new Person(fName, lName, email);
         try {
             em.getTransaction().begin();
             em.persist(person);
@@ -114,10 +114,9 @@ public class PersonFacade implements IPersonFacade {
         }
         person.setFirstName(p.getFirstName());
         person.setLastName(p.getLastName());
-        person.setPhone(p.getPhone());
+        person.setEmail(p.getEmail());
         try {
             em.getTransaction().begin();
-            person.setLastEdited(new Date());
             em.merge(person);
             em.getTransaction().commit();
             return person;

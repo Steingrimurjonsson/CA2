@@ -2,13 +2,15 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "'FLY N SEE' API",
-    "description": "Group #3 'FLY N SEE' REST API"
+    "title": "REST API",
+    "description": "Group #3 CA2 REST API"
   },
   "schemes": [
     "http"
   ],
+
   "host": "ruffsacks.com",
+
   "basePath": "/CA2/api/person",
   "tags": [
     {
@@ -120,9 +122,9 @@
           "type": "string",
           "example": "Wonnegut"
         },
-        "phone": {
+        "email": {
           "type": "string",
-          "example": "(45) 12234567"
+          "example": "Some@email.com"
         }
       }
     },
@@ -137,9 +139,9 @@
           "type": "string",
           "example": "Wonnegut"
         },
-        "phone": {
+        "email": {
           "type": "string",
-          "example": "(45) 12234567"
+          "example": "Some@email.com"
         }
       }
     }

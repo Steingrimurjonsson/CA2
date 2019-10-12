@@ -48,7 +48,7 @@ public class PersonResource {
     @Consumes({MediaType.APPLICATION_JSON})
     public String add(String person) {
         PersonDTO p = GSON.fromJson(person,PersonDTO.class);
-        Person pAdded = FACADE.addPerson(p.getfName(), p.getlName(), p.getPhone());
+        Person pAdded = FACADE.addPerson(p.getfName(), p.getlName(), p.getEmail());
         return GSON.toJson(new PersonDTO(pAdded));
     }
     
@@ -58,7 +58,7 @@ public class PersonResource {
     @Path("{id}")
     public String edit(@PathParam("id") long id,String person) throws PersonNotFoundException {
         PersonDTO p = GSON.fromJson(person,PersonDTO.class);
-        Person pToEdit = new Person(p.getfName(),p.getlName(),p.getPhone());
+        Person pToEdit = new Person(p.getfName(),p.getlName(),p.getEmail());
         pToEdit.setId(id);
         Person editedPerson = FACADE.editPerson(pToEdit);
         return GSON.toJson(new PersonDTO(editedPerson));
