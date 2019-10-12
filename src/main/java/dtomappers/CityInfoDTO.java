@@ -92,5 +92,10 @@ public class CityInfoDTO {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "CityInfoDTO{" + "id=" + id + ", zipCode=" + zipCode + ", city=" + city + ", address=" + address + '}';
+    }
+
 
 }

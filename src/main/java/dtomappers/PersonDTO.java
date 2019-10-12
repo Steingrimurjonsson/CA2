@@ -122,5 +122,10 @@ public class PersonDTO {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "PersonDTO{" + "id=" + id + ", fName=" + fName + ", lName=" + lName + ", email=" + email + ", hobbies=" + hobbies + ", phone=" + phone + ", address=" + address + '}';
+    }
+
 
 }

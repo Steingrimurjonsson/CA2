@@ -83,5 +83,10 @@ public class HobbyDTO {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "HobbyDTO{" + "id=" + id + ", name=" + name + ", description=" + description + ", person=" + person + '}';
+    }
+
 
 }

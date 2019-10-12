@@ -90,5 +90,10 @@ public class PhoneDTO {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "PhoneDTO{" + "id=" + id + ", number=" + number + ", description=" + description + ", person=" + person + '}';
+    }
+
 
 }
