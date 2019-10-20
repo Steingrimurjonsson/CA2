@@ -10,9 +10,11 @@ import java.util.List;
 public interface IPersonFacade {
 
     public PersonOutDTO addPerson(PersonInDTO DTO);
-    
-    public CityInfoOutDTO getCityByZip (String zipCode); 
-        
+
+    public List<Integer> getAllZips();
+
+    public CityInfoOutDTO getCityByZip(String zipCode);
+
     public PersonOutDTO addCompletePerson(PersonInDTO DTO);
 
     public PersonOutDTO deletePerson(long id) throws PersonNotFoundException;
@@ -23,6 +25,4 @@ public interface IPersonFacade {
 
     public PersonOutDTO editPerson(PersonInDTO pID) throws PersonNotFoundException;
 
-
- 
 }

@@ -9,6 +9,7 @@ import entities.Person;
 import exceptions.PersonNotFoundException;
 import utils.EMF_Creator;
 import facades.PersonFacade;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -58,27 +59,23 @@ public class PersonResource {
     @Path("/addF")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addCompletePerson(String p) {
-        PersonInDTO newP = GSON.fromJson(p, PersonInDTO.class);
-        PersonOutDTO cP = FACADE.addCompletePerson(newP);
-        return Response.ok(cP).build();
-    }
-    
-     @POST
-    @Path("/addF")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
     public PersonOutDTO addCompletePerson(PersonInDTO person) {
         return FACADE.addCompletePerson(person);
     }
 
-    
- @GET
-    @Path("/zip/{zip}")
+    @GET
+    @Path("zip/{zip}")
     @Produces(MediaType.APPLICATION_JSON)
     public CityInfoOutDTO getCityByZip(String zipCode) {
         CityInfoOutDTO result = FACADE.getCityByZip(zipCode);
         return result;
+    }
+
+    @GET
+    @Path("zipAll")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Integer> getAllZipCodes() {
+        return FACADE.getAllZips();
     }
 
 }

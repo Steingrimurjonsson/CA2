@@ -184,6 +184,17 @@ public class PersonFacade implements IPersonFacade {
         }
     }
     @Override
+    public List<Integer> getAllZips() {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNamedQuery("SELECT c.zipCode FROM CityInfo c");
+            List<Integer> allZips = query.getResultList();
+                return allZips;
+        } finally {
+            em.close();
+        }
+    }
+    @Override
     public PersonOutDTO editPerson(PersonInDTO DTO) throws PersonNotFoundException {
         EntityManager em = getEntityManager();
         try {
