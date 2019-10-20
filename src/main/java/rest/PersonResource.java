@@ -26,31 +26,41 @@ import utils.EMF_Creator.Strategy;
 @Path("person")
 public class PersonResource {
 
-  private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.TEST, EMF_Creator.Strategy.CREATE);
+    private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.TEST, EMF_Creator.Strategy.CREATE);
     private static final PersonFacade FACADE = PersonFacade.getFacadeExample(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-            
+
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String isUp(){
+    public String isUp() {
         return "{\"status\":\"OK\"}";
     }
-    
+
     @GET
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
     public String getAllPersons() {
         return GSON.toJson(FACADE.getAllPersons());
     }
-    
-  @POST
-    @Path("/add/")
+
+    @POST
+    @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addPerson(String p) {   
-    PersonInDTO newP = GSON.fromJson(p, PersonInDTO.class);
-    PersonOutDTO cP = FACADE.addPerson(newP);
-       return Response.ok(cP).build();
+    public Response addPerson(String p) {
+        PersonInDTO newP = GSON.fromJson(p, PersonInDTO.class);
+        PersonOutDTO cP = FACADE.addPerson(newP);
+        return Response.ok(cP).build();
     }
- 
+
+    @POST
+    @Path("/addF")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addCompletePerson(String p) {
+        PersonInDTO newP = GSON.fromJson(p, PersonInDTO.class);
+        PersonOutDTO cP = FACADE.addCompletePerson(newP);
+        return Response.ok(cP).build();
+    }
+
 }
