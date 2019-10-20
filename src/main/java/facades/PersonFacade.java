@@ -16,6 +16,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -62,7 +63,7 @@ public class PersonFacade implements IPersonFacade {
     public List<PersonOutDTO> getAllPersons() {
         EntityManager em = getEntityManager();
         try {
-            List<Person> ps =em.createNamedQuery("Person.All").getResultList();
+            List<Person> ps = em.createNamedQuery("Person.All").getResultList();
             List<PersonOutDTO> allPersons = new ArrayList();
             ps.forEach((p) -> {
                 allPersons.add(new PersonOutDTO(p));
@@ -79,6 +80,53 @@ public class PersonFacade implements IPersonFacade {
         Person person = new Person(DTO.getfName(), DTO.getlName(), DTO.getEmail(), null);
         try {
             em.getTransaction().begin();
+            em.persist(person);
+            em.getTransaction().commit();
+            PersonOutDTO ADDED = new PersonOutDTO(person);
+            return ADDED;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public PersonOutDTO addCompletePerson(PersonInDTO DTO) {
+        EntityManager em = getEntityManager();
+        Person person = new Person(DTO.getfName(), DTO.getlName(), DTO.getEmail());
+        DTO.getPhones().forEach((p) -> {
+            Phone phone = new Phone(p);
+            phone.setPerson(person);
+            person.addPhone(phone);
+        });
+        try {
+            em.getTransaction().begin();
+            DTO.getHobbies().forEach((hDTO) -> {
+                String description = hDTO.getDescription();
+                String name = hDTO.getName();
+                Hobby hob = new Hobby(name, description);
+                Hobby h = em.createNamedQuery("SELECT h FROM Hobby h WHERE h.name = :name AND h.description = :description", Hobby.class).setParameter("name", name).setParameter("description", description).getSingleResult();
+                if (h == null) {
+                    hob = new Hobby(name, description);
+                }
+                hob = em.merge(hob);
+                person.addHobby(hob);
+            });
+
+            String street = DTO.getAddress().getStreet();
+            String additionalInfo = DTO.getAddress().getAdditionalInfo();
+            Address address = new Address(street, additionalInfo);
+
+            String zipCode = DTO.getAddress().getCityInfo().getZipCode();
+            String city = DTO.getAddress().getCityInfo().getCity();
+            CityInfo cityInfo = new CityInfo(zipCode, city);
+
+            CityInfo c = em.createNamedQuery("SELECT c FROM CityInfo c WHERE c.zipCode = :zipCode", CityInfo.class).setParameter("zipCode", zipCode).setParameter("city", city).getSingleResult();
+            if (c != null) {
+                address.setCityInfo(cityInfo);
+                address = em.merge(address);
+                address.setPerson(person);
+                person.setAddress(address);
+            }
             em.persist(person);
             em.getTransaction().commit();
             PersonOutDTO ADDED = new PersonOutDTO(person);

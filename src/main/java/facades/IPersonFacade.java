@@ -9,6 +9,8 @@ import java.util.List;
 public interface IPersonFacade {
 
     public PersonOutDTO addPerson(PersonInDTO DTO);
+        
+    public PersonOutDTO addCompletePerson(PersonInDTO DTO);
 
     public PersonOutDTO deletePerson(long id) throws PersonNotFoundException;
 

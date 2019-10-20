@@ -103,6 +103,10 @@ public class Address implements Serializable {
         return persons;
     }
 
+    public void setPerson(Person person) {
+        this.persons.add(person);
+    }
+
     public void setPersons(List<Person> persons) {
         this.persons = persons;
     }
@@ -139,7 +143,5 @@ public class Address implements Serializable {
     public String toString() {
         return "Address{" + "id=" + id + ", street=" + street + ", additionalInfo=" + additionalInfo + ", cityInfo=" + cityInfo + ", persons=" + persons + '}';
     }
-
-
 
 }
