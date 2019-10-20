@@ -18,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import utils.EMF_Creator.DbSelector;
 import utils.EMF_Creator.Strategy;
 
@@ -43,13 +44,13 @@ public class PersonResource {
     }
     
   @POST
-    @Path("/add")
+    @Path("/add/")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public PersonOutDTO addPerson(PersonInDTO p) {
-    PersonInDTO newP = new PersonInDTO();
-        return FACADE.addPerson(newP);
-
+    public Response addPerson(String p) {   
+    PersonInDTO newP = GSON.fromJson(p, PersonInDTO.class);
+    PersonOutDTO cP = FACADE.addPerson(newP);
+       return Response.ok(cP).build();
     }
  
 }
