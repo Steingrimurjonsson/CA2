@@ -42,7 +42,7 @@ public class Person implements Serializable {
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "hobbyID")
+    @JoinColumn(name = "hobbiesID")
 
     private List<Hobby> hobbies = new ArrayList();
 

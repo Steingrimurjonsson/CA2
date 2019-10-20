@@ -36,7 +36,7 @@ public class PersonFacade implements IPersonFacade {
      * @param _emf
      * @return an instance of this facade class.
      */
-    public static PersonFacade getFacadeExample(EntityManagerFactory _emf) {
+    public static PersonFacade getFacadePerson(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
             instance = new PersonFacade();
@@ -93,13 +93,16 @@ public class PersonFacade implements IPersonFacade {
     public PersonOutDTO addCompletePerson(PersonInDTO DTO) {
         EntityManager em = getEntityManager();
         Person person = new Person(DTO.getfName(), DTO.getlName(), DTO.getEmail());
-        DTO.getPhones().forEach((p) -> {
+     
+        try {
+            em.getTransaction().begin();
+            
+          DTO.getPhones().forEach((p) -> {
             Phone phone = new Phone(p);
             phone.setPerson(person);
             person.addPhone(phone);
         });
-        try {
-            em.getTransaction().begin();
+            
             DTO.getHobbies().forEach((hDTO) -> {
                 String description = hDTO.getDescription();
                 String name = hDTO.getName();

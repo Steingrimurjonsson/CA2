@@ -36,7 +36,7 @@ public class Hobby implements Serializable {
     private String description;
     
     @ManyToMany(mappedBy = "hobbies", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "personID")
+    @JoinColumn(name = "personsID")
     private List<Person> persons = new ArrayList();
 
     public Hobby() {

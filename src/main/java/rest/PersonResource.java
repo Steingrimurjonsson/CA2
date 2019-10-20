@@ -27,7 +27,7 @@ import utils.EMF_Creator.Strategy;
 public class PersonResource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.TEST, EMF_Creator.Strategy.CREATE);
-    private static final PersonFacade FACADE = PersonFacade.getFacadeExample(EMF);
+    private static final PersonFacade FACADE = PersonFacade.getFacadePerson(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     @GET
