@@ -2,6 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dtomappers.CityInfoOutDTO;
 import dtomappers.PersonInDTO;
 import dtomappers.PersonOutDTO;
 import entities.Person;
@@ -61,6 +62,23 @@ public class PersonResource {
         PersonInDTO newP = GSON.fromJson(p, PersonInDTO.class);
         PersonOutDTO cP = FACADE.addCompletePerson(newP);
         return Response.ok(cP).build();
+    }
+    
+     @POST
+    @Path("/addF")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public PersonOutDTO addCompletePerson(PersonInDTO person) {
+        return FACADE.addCompletePerson(person);
+    }
+
+    
+ @GET
+    @Path("/zip/{zip}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public CityInfoOutDTO getCityByZip(String zipCode) {
+        CityInfoOutDTO result = FACADE.getCityByZip(zipCode);
+        return result;
     }
 
 }

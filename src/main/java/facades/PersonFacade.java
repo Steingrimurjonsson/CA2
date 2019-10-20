@@ -1,5 +1,6 @@
 package facades;
 
+import dtomappers.CityInfoOutDTO;
 import dtomappers.HobbyInDTO;
 import dtomappers.PersonInDTO;
 import dtomappers.PersonOutDTO;
@@ -172,7 +173,16 @@ public class PersonFacade implements IPersonFacade {
         }
 
     }
-
+    @Override
+    public CityInfoOutDTO getCityByZip(String zipCode) {
+        EntityManager em = getEntityManager();
+        try {
+            CityInfo city = em.createNamedQuery("SELECT c FROM CityInfo c WHERE c.zipCode = :zipCode", CityInfo.class).setParameter("zipCode", zipCode).getSingleResult();
+            return new CityInfoOutDTO(city);
+        }  finally {
+            em.close();
+        }
+    }
     @Override
     public PersonOutDTO editPerson(PersonInDTO DTO) throws PersonNotFoundException {
         EntityManager em = getEntityManager();

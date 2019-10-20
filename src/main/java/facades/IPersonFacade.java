@@ -1,6 +1,7 @@
 package facades;
 
 import dtomappers.CityInfoInDTO;
+import dtomappers.CityInfoOutDTO;
 import dtomappers.PersonInDTO;
 import dtomappers.PersonOutDTO;
 import exceptions.PersonNotFoundException;
@@ -9,6 +10,8 @@ import java.util.List;
 public interface IPersonFacade {
 
     public PersonOutDTO addPerson(PersonInDTO DTO);
+    
+    public CityInfoOutDTO getCityByZip (String zipCode); 
         
     public PersonOutDTO addCompletePerson(PersonInDTO DTO);
 
