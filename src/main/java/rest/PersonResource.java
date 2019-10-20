@@ -47,11 +47,9 @@ public class PersonResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public PersonOutDTO addPerson(PersonInDTO p) {
-    PersonInDTO newP = new PersonInDTO("FTEST", "LTEST", "EMAILTEST");
+    PersonInDTO newP = new PersonInDTO();
         return FACADE.addPerson(newP);
 
     }
-   
-
  
 }
