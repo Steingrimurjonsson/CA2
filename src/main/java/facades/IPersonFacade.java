@@ -11,7 +11,7 @@ public interface IPersonFacade {
 
     public PersonOutDTO addPerson(PersonInDTO DTO);
 
-    public List<Integer> getAllZips();
+    public List<CityInfoOutDTO> getAllZips();
 
     public CityInfoOutDTO getCityByZip(String zipCode);
 

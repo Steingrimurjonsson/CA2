@@ -76,6 +76,21 @@ public class PersonFacade implements IPersonFacade {
     }
 
     @Override
+    public List<CityInfoOutDTO> getAllZips() {
+        EntityManager em = getEntityManager();
+        try {
+            List<CityInfo> zip = em.createNamedQuery("CityInfo.AllZip").getResultList();
+            List<CityInfoOutDTO> allZips = new ArrayList();
+            zip.forEach((z) -> {
+                allZips.add(new CityInfoOutDTO(z));
+            });
+            return allZips;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
     public PersonOutDTO addPerson(PersonInDTO DTO) {
         EntityManager em = getEntityManager();
         Person person = new Person(DTO.getfName(), DTO.getlName(), DTO.getEmail(), null);
@@ -94,16 +109,16 @@ public class PersonFacade implements IPersonFacade {
     public PersonOutDTO addCompletePerson(PersonInDTO DTO) {
         EntityManager em = getEntityManager();
         Person person = new Person(DTO.getfName(), DTO.getlName(), DTO.getEmail());
-     
+
         try {
             em.getTransaction().begin();
-            
-          DTO.getPhones().forEach((p) -> {
-            Phone phone = new Phone(p);
-            phone.setPerson(person);
-            person.addPhone(phone);
-        });
-            
+
+            DTO.getPhones().forEach((p) -> {
+                Phone phone = new Phone(p);
+                phone.setPerson(person);
+                person.addPhone(phone);
+            });
+
             DTO.getHobbies().forEach((hDTO) -> {
                 String description = hDTO.getDescription();
                 String name = hDTO.getName();
@@ -173,27 +188,18 @@ public class PersonFacade implements IPersonFacade {
         }
 
     }
+
     @Override
     public CityInfoOutDTO getCityByZip(String zipCode) {
         EntityManager em = getEntityManager();
         try {
             CityInfo city = em.createNamedQuery("SELECT c FROM CityInfo c WHERE c.zipCode = :zipCode", CityInfo.class).setParameter("zipCode", zipCode).getSingleResult();
             return new CityInfoOutDTO(city);
-        }  finally {
-            em.close();
-        }
-    }
-    @Override
-    public List<Integer> getAllZips() {
-        EntityManager em = getEntityManager();
-        try {
-            Query query = em.createNamedQuery("SELECT c.zipCode FROM CityInfo c");
-            List<Integer> allZips = query.getResultList();
-                return allZips;
         } finally {
             em.close();
         }
     }
+
     @Override
     public PersonOutDTO editPerson(PersonInDTO DTO) throws PersonNotFoundException {
         EntityManager em = getEntityManager();

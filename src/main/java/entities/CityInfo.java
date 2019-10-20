@@ -25,7 +25,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 @Entity
-
+@NamedQueries({
+    @NamedQuery(name = "CityInfo.AllZip", query = "SELECT c FROM CityInfo c"),
+    @NamedQuery(name = "CityInfo.deleteAllRows", query = "DELETE FROM CityInfo"),
+    @NamedQuery(name = "CityInfo.getCityByZip", query = "SELECT c FROM CityInfo c WHERE c.zipCode = :zip"),
+    @NamedQuery(name = "CityInfo.getZipCode", query = "SELECT c.zipCode FROM CityInfo c")
+})
 
 public class CityInfo implements Serializable {
 
