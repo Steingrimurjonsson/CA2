@@ -119,6 +119,21 @@ public class PersonFacade implements IPersonFacade {
             em.close();
         }
     }
+      @Override
+    public List<PersonOutDTO> getAmountofPeopleInHobby(String hName) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Person> persons = em.createNamedQuery("Person.AmountOfPeopleInHobby").setParameter("name", hName).getResultList();
+          
+            List<PersonOutDTO> peopleinHobby = new ArrayList<>();
+            persons.forEach((person) -> {
+                peopleinHobby.add(new PersonOutDTO(person));
+            });
+            return peopleinHobby;
+      } finally {
+            em.close();
+        }
+    }
     @Override
     public PersonOutDTO addPerson(PersonInDTO DTO) {
         EntityManager em = getEntityManager();

@@ -59,11 +59,11 @@ public class PersonResource {
         return GSON.toJson(FACADE.getAllPeopleLivingInZip());
     }
 
-     @GET
-    @Path("/hobby")
+    @GET
+    @Path("hobby/{hobby}")
     @Produces(MediaType.APPLICATION_JSON)
-   public List<PersonOutDTO> getPersonInHobby(String hobby) {
-        List<PersonOutDTO> result = FACADE.getPersonInHobby(hobby);
+    public List<PersonOutDTO> getPersonInHobby(String hName) {
+        List<PersonOutDTO> result = FACADE.getPersonInHobby(hName);
         return result;
     }
 

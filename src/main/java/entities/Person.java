@@ -29,7 +29,9 @@ import javax.persistence.Temporal;
 @NamedQueries({
     @NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person"),
     @NamedQuery(name = "Person.All", query = "SELECT p FROM Person p"),
- })
+    @NamedQuery(name = "Person.getPeopleInHobby", query = "SELECT p FROM Person p JOIN p.hobbies h WHERE h.name = :name"),
+    @NamedQuery(name = "Person.AmountOfPeopleInHobby", query = "SELECT count(p) FROM Person p JOIN p.hobbies h WHERE h.name = :name")
+})
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
