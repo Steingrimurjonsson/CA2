@@ -66,7 +66,13 @@ public class PersonResource {
         List<PersonOutDTO> result = FACADE.getPersonInHobby(hName);
         return result;
     }
-
+    @GET
+    @Path("hobbyAmount/{hobby}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<PersonOutDTO> getAmountofPeopleInHobby(String hName) {
+        List<PersonOutDTO> result = FACADE.getAmountofPeopleInHobby(hName);
+        return result;
+    }
     @POST
     @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
