@@ -62,8 +62,8 @@ public class PersonResource {
     @GET
     @Path("hobby/{hobby}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<PersonOutDTO> getPersonInHobby(String hName) {
-        List<PersonOutDTO> result = FACADE.getPersonInHobby(hName);
+    public List<PersonOutDTO> getPersonInHobby(String name) {
+        List<PersonOutDTO> result = FACADE.getPersonInHobby(name);
         return result;
     }
     @GET

@@ -105,10 +105,10 @@ public class PersonFacade implements IPersonFacade {
         }
     }
     @Override
-    public List<PersonOutDTO> getPersonInHobby(String hName) {
+    public List<PersonOutDTO> getPersonInHobby(String name) {
         EntityManager em = getEntityManager();
         try {
-            List<Person> persons = em.createNamedQuery("Person.getPeopleInHobby").setParameter("name", hName).getResultList();
+            List<Person> persons = em.createNamedQuery("Person.getPeopleInHobby").setParameter("name", name).getResultList();
           
             List<PersonOutDTO> peopleinHobby = new ArrayList<>();
             persons.forEach((person) -> {
@@ -120,10 +120,10 @@ public class PersonFacade implements IPersonFacade {
         }
     }
       @Override
-    public List<PersonOutDTO> getAmountofPeopleInHobby(String hName) {
+    public List<PersonOutDTO> getAmountofPeopleInHobby(String name) {
         EntityManager em = getEntityManager();
         try {
-            List<Person> persons = em.createNamedQuery("Person.AmountOfPeopleInHobby").setParameter("name", hName).getResultList();
+            List<Person> persons = em.createNamedQuery("Person.AmountOfPeopleInHobby").setParameter("name", name).getResultList();
           
             List<PersonOutDTO> peopleinHobby = new ArrayList<>();
             persons.forEach((person) -> {

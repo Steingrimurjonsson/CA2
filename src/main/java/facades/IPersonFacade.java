@@ -24,7 +24,7 @@ public interface IPersonFacade {
 
     public List<PersonOutDTO> getAllPersons();
 
-    public List<PersonOutDTO> getPersonInHobby(String hName);
+    public List<PersonOutDTO> getPersonInHobby(String name);
 
-    public List<PersonOutDTO> getAmountofPeopleInHobby(String hName);
+    public List<PersonOutDTO> getAmountofPeopleInHobby(String name);
 }
