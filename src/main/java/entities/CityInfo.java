@@ -27,7 +27,7 @@ import javax.persistence.Temporal;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "CityInfo.AllZip", query = "SELECT c FROM CityInfo c"),
-    @NamedQuery(name = "CityInfo.peopleInZip", query = "SELECT p FROM Person p WHERE p.address = (SELECT a FROM Address a WHERE a.cityinfo = (SELECT c FROM CityInfo c WHERE c.city = :city AND c.zipCode = :zipCode))")
+    @NamedQuery(name = "CityInfo.peopleInZip", query = "SELECT p FROM Person p WHERE p.address = (SELECT a FROM Address a WHERE a.cityInfo = (SELECT c FROM CityInfo c WHERE c.city = :city AND c.zipCode = :zipCode))")
 })
 
 public class CityInfo implements Serializable {
