@@ -2,6 +2,7 @@ package facades;
 
 import dtomappers.CityInfoOutDTO;
 import dtomappers.HobbyInDTO;
+import dtomappers.HobbyOutDTO;
 import dtomappers.PersonInDTO;
 import dtomappers.PersonOutDTO;
 import dtomappers.PhoneInDTO;
@@ -89,7 +90,35 @@ public class PersonFacade implements IPersonFacade {
             em.close();
         }
     }
-
+      @Override
+    public List<CityInfoOutDTO> getAllPeopleLivingInZip() {
+        EntityManager em = getEntityManager();
+        try {
+            List<CityInfo> zip = em.createNamedQuery("CityInfo.peopleInZip").getResultList();
+            List<CityInfoOutDTO> pInZ = new ArrayList();
+            zip.forEach((z) -> {
+                pInZ.add(new CityInfoOutDTO(z));
+            });
+            return pInZ;
+        } finally {
+            em.close();
+        }
+    }
+    @Override
+    public List<PersonOutDTO> getPersonInHobby(String hName) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Person> persons = em.createNamedQuery("Person.getPeopleInHobby").setParameter("name", hName).getResultList();
+          
+            List<PersonOutDTO> peopleinHobby = new ArrayList<>();
+            persons.forEach((person) -> {
+                peopleinHobby.add(new PersonOutDTO(person));
+            });
+            return peopleinHobby;
+      } finally {
+            em.close();
+        }
+    }
     @Override
     public PersonOutDTO addPerson(PersonInDTO DTO) {
         EntityManager em = getEntityManager();
@@ -187,107 +216,6 @@ public class PersonFacade implements IPersonFacade {
             em.close();
         }
 
-    }
-
-    @Override
-    public CityInfoOutDTO getCityByZip(String zipCode) {
-        EntityManager em = getEntityManager();
-        try {
-            CityInfo city = em.createNamedQuery("SELECT c FROM CityInfo c WHERE c.zipCode = :zipCode", CityInfo.class).setParameter("zipCode", zipCode).getSingleResult();
-            return new CityInfoOutDTO(city);
-        } finally {
-            em.close();
-        }
-    }
-
-    @Override
-    public PersonOutDTO editPerson(PersonInDTO DTO) throws PersonNotFoundException {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            Person pID = em.find(Person.class, DTO.getId());
-            if (pID == null) {
-                throw new PersonNotFoundException(String.format("Person with id: (%d) not found", pID.getId()));
-            }
-            if (DTO.getfName() != null) {
-                pID.setfName(DTO.getfName());
-            }
-            if (DTO.getlName() != null) {
-                pID.setlName(DTO.getlName());
-            }
-            if (DTO.getEmail() != null) {
-                pID.setEmail(DTO.getEmail());
-            }
-
-            Address a;
-            CityInfo c;
-            List<HobbyInDTO> hobbies = DTO.getHobbies();
-            List<PhoneInDTO> phones = DTO.getPhones();
-
-            if (DTO.getAddress() != null) {
-                a = em.find(Address.class, DTO.getAddress().getId());
-                if (a == null) {
-                    a = new Address(DTO.getAddress());
-                    em.persist(a);
-                } else {
-                    a.setAdditionalInfo(DTO.getAddress().getAdditionalInfo());
-                    a.setStreet(DTO.getAddress().getStreet());
-                    a = em.merge(a);
-                }
-                if (DTO.getAddress().getCityInfo() != null) {
-                    c = em.find(CityInfo.class, DTO.getAddress().getCityInfo().getId());
-                    if (c == null) {
-                        c = new CityInfo(DTO.getAddress().getCityInfo());
-                        em.persist(c);
-                    } else {
-                        c.setCity(DTO.getAddress().getCityInfo().getCity());
-                        c.setZipCode(DTO.getAddress().getCityInfo().getZipCode());
-                        c = em.merge(c);
-                    }
-                    a.setCityInfo(c);
-                }
-                pID.setAddress(a);
-            }
-            if (hobbies != null) {
-                hobbies.forEach((hobbyDTO) -> {
-                    Hobby h;
-                    h = em.find(Hobby.class, hobbyDTO.getId());
-                    if (h != null) {
-                        h.setDescription(hobbyDTO.getDescription());
-                        h.setName(hobbyDTO.getName());
-                        em.merge(h);
-                    } else {
-                        h = new Hobby(hobbyDTO);
-                        em.persist(h);
-                    }
-                    if (!pID.getHobbies().contains(h)) {
-                        pID.addHobby(h);
-                    }
-                });
-            }
-            if (phones != null) {
-                phones.forEach((pDTO) -> {
-                    Phone ph;
-                    ph = em.find(Phone.class, pDTO.getId());
-                    if (ph != null) {
-                        ph.setDescription(pDTO.getDescription());
-                        ph.setNumber(pDTO.getNumber());
-                        em.merge(ph);
-                    } else {
-                        ph = new Phone(pDTO);
-                        em.persist(ph);
-                    }
-                    if (!pID.getPhone().contains(ph)) {
-                        pID.addPhone(ph);
-                    }
-                });
-            }
-            Person ePerson = em.merge(pID);
-            em.getTransaction().commit();
-            return new PersonOutDTO(ePerson);
-        } finally {
-            em.close();
-        }
     }
 
 }

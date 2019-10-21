@@ -44,11 +44,27 @@ public class PersonResource {
     public String getAllPersons() {
         return GSON.toJson(FACADE.getAllPersons());
     }
-     @GET
+
+    @GET
     @Path("allZip")
     @Produces({MediaType.APPLICATION_JSON})
     public String getAllZips() {
         return GSON.toJson(FACADE.getAllZips());
+    }
+
+    @GET
+    @Path("pInZip/{zip}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getAllPeopleLivingInZip() {
+        return GSON.toJson(FACADE.getAllPeopleLivingInZip());
+    }
+
+     @GET
+    @Path("/hobby")
+    @Produces(MediaType.APPLICATION_JSON)
+   public List<PersonOutDTO> getPersonInHobby(String hobby) {
+        List<PersonOutDTO> result = FACADE.getPersonInHobby(hobby);
+        return result;
     }
 
     @POST
@@ -65,15 +81,8 @@ public class PersonResource {
     @Path("/addF")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public PersonOutDTO addCompletePerson(PersonInDTO person) {
-        return FACADE.addCompletePerson(person);
+    public PersonOutDTO addCompletePerson(PersonInDTO DTO) {
+        return FACADE.addCompletePerson(DTO);
     }
 
-    @GET
-    @Path("zip/{zip}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public CityInfoOutDTO getCityByZip(String zipCode) {
-        CityInfoOutDTO result = FACADE.getCityByZip(zipCode);
-        return result;
-    }
 }

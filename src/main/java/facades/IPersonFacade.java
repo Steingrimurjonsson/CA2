@@ -2,6 +2,7 @@ package facades;
 
 import dtomappers.CityInfoInDTO;
 import dtomappers.CityInfoOutDTO;
+import dtomappers.HobbyOutDTO;
 import dtomappers.PersonInDTO;
 import dtomappers.PersonOutDTO;
 import exceptions.PersonNotFoundException;
@@ -13,7 +14,7 @@ public interface IPersonFacade {
 
     public List<CityInfoOutDTO> getAllZips();
 
-    public CityInfoOutDTO getCityByZip(String zipCode);
+    public List<CityInfoOutDTO> getAllPeopleLivingInZip();
 
     public PersonOutDTO addCompletePerson(PersonInDTO DTO);
 
@@ -23,6 +24,6 @@ public interface IPersonFacade {
 
     public List<PersonOutDTO> getAllPersons();
 
-    public PersonOutDTO editPerson(PersonInDTO pID) throws PersonNotFoundException;
+    public List<PersonOutDTO> getPersonInHobby(String hName);
 
 }

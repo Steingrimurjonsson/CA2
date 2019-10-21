@@ -21,9 +21,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
-
 @Entity
-
+@NamedQueries({
+    @NamedQuery(name = "Hobby.All", query = "SELECT h FROM Hobby h")
+})
 
 public class Hobby implements Serializable {
 
